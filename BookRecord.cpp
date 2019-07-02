@@ -126,3 +126,22 @@ void BookRecord::printRecord()
 {
     cout << m_sTitle << " " << m_lStockNum << " " << m_iClassification << " " << m_dCost << " " << m_iCount << endl;
 }
+
+//--------------------------------------------------------
+//
+//--------------------------------------------------------
+void BookRecord::setNext(BookRecord *next)
+{
+    // TODO: cool code goes here.
+}
+
+//--------------------------------------------------------
+//
+//--------------------------------------------------------
+BookRecord *BookRecord::getNext()
+{
+    // TODO: cool code goes here.
+    BookRecord *br = new BookRecord();
+    return br;
+}
+

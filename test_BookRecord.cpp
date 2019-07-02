@@ -154,6 +154,12 @@ void test_printRecord()
     br->printRecord();
 }
 
+void test_readInventory()
+{
+    Book_Inventory *testInv = new Book_Inventory();
+    testInv->readInventory("BookData.txt");
+}
+
 int main()
 {
 

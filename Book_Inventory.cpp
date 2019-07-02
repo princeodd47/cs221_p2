@@ -4,6 +4,93 @@
 using namespace std;
 
 //--------------------------------------------
+// Function: Book_Inventory()
+// Purpose: Default Constructor
+//--------------------------------------------
+Book_Inventory::Book_Inventory()
+{
+
+}
+
+//--------------------------------------------
+// Function: ~Book_Inventory()
+// Purpose: Deconstructor, closes files opened
+//      using readInventory()
+//--------------------------------------------
+Book_Inventory::~Book_Inventory()
+{
+    m_InFile.close();
+}
+
+//--------------------------------------------
+// Function: ClearInventory()
+// Purpose: 
+//--------------------------------------------
+void Book_Inventory::ClearInventory()
+{
+    //TODO: Do cool things here.
+}
+
+//--------------------------------------------
+// Function: addBook()
+// Purpose: 
+//--------------------------------------------
+bool Book_Inventory::addBook(BookRecord *br)
+{
+    //TODO: Do cool things here.
+    return true;
+}
+
+//--------------------------------------------
+// Function: searchByStockNumber()
+// Purpose: 
+//--------------------------------------------
+BookRecord *Book_Inventory::searchByStockNumber(long stockNum)
+{
+    //TODO: Do cool things here.
+    BookRecord *br = new BookRecord();
+    return br;
+}
+
+//--------------------------------------------
+// Function: searchByClassification()
+// Purpose: 
+//--------------------------------------------
+void Book_Inventory::searchByClassification(int cl)
+{
+    //TODO: Do cool things here.
+}
+
+//--------------------------------------------
+// Function: searchBycost()
+// Purpose: 
+//--------------------------------------------
+void Book_Inventory::searchByCost(double min, double max)
+{
+    //TODO: Do cool things here.
+}
+
+//--------------------------------------------
+// Function: getNumberInStock()
+// Purpose: 
+//--------------------------------------------
+int Book_Inventory::getNumberInStock(long sn)
+{
+    //TODO: Do cool things here.
+    int numInStock = 0;
+    return numInStock;
+}
+
+//--------------------------------------------
+// Function: printInventory()
+// Purpose: 
+//--------------------------------------------
+void Book_Inventory::printInventory()
+{
+    //TODO: Do cool things here.
+}
+
+//--------------------------------------------
 // Function: readInventory()
 // Purpose: Read the inventory data file and
 //		build the list.
