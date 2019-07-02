@@ -113,12 +113,34 @@ bool Book_Inventory::readInventory(const char *filename)
     // Read number of books
     getNextLine(line, 128);
     numBooks = atoi(line);
+
+    /*
+     * Remaining lines will give the stock number, Title, classification, 
+     * cost and number in stock
+     */
     for(int i=0; i<numBooks; i++)
     {
-
-        // ------------------------------------------
-        // Your code to read the inventory goes here
-        // ------------------------------------------
+        BookRecord *tempBr = new BookRecord();
+        // stockNum
+        getNextLine(line, 128);
+        tempBr->setStockNum(atol(line));
+        // title
+        getNextLine(line, 128);
+        cout << line << endl;
+        tempBr->setTitle(line);
+        char tempTitle[32];
+        tempBr->getTitle(tempTitle);
+        cout << tempTitle << endl;
+        // classification
+        getNextLine(line, 128);
+        tempBr->setClassification(atoi(line));
+        // cost
+        getNextLine(line, 128);
+        tempBr->setCost(atof(line));
+        // numInStock
+        getNextLine(line, 128);
+        tempBr->setNumberInStock(atoi(line));
+        tempBr->printRecord();
     }
     return true;
 }

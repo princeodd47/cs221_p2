@@ -161,7 +161,7 @@ void test_getNext()
     
 }
 
-void test_setNext()
+void test_setNext_getNext()
 {
     
     BookRecord *br_1 = new BookRecord("foo", 123456, 5, 3.45);
@@ -187,7 +187,7 @@ void test_readInventory()
 
 int main()
 {
-    cout << "BookRecord Tests" << endl;
+    //cout << "BookRecord Tests" << endl;
     //test_BookRecordDefault();
     //test_getTitle();
     //test_setTitle();
@@ -199,11 +199,11 @@ int main()
     //test_setCost();
     //test_getNumberInStock();
     //test_setNumberInStock();
-    test_printRecord();
-    test_setNext();
+    //test_printRecord();
+    //test_setNext_getNext();
 
     cout << "Book_InventoryTests" << endl;
-    //test_readInventory();
+    test_readInventory();
 
     return 0;
 }
