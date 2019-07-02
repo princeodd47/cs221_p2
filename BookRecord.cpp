@@ -71,9 +71,9 @@ void BookRecord::setStockNum(long sn)
 //--------------------------------------------------------
 // Sets integer argument cl to m_iClassification
 //--------------------------------------------------------
-void BookRecord::getClassification(int& cl)
+int BookRecord::getClassification()
 {
-    cl = m_iClassification;
+    return m_iClassification;
 }
 
 //--------------------------------------------------------
@@ -87,9 +87,9 @@ void BookRecord::setClassification(int cl)
 //--------------------------------------------------------
 // 
 //--------------------------------------------------------
-void BookRecord::getCost(double *c)
+double BookRecord::getCost()
 {
-    *c = m_dCost;
+    return m_dCost;
 }
 //--------------------------------------------------------
 // Sets m_dCost to argument c
@@ -117,6 +117,10 @@ void BookRecord::setNumberInStock(int count)
 
 //--------------------------------------------------------
 // Prints BookRecord object
+// 
+// Title   Stock_Num   Classification    Cost   In Stock
+// For example:
+// Introduction to C++   12345    613   49.95   5
 //--------------------------------------------------------
 void BookRecord::printRecord()
 {

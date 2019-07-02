@@ -1,4 +1,4 @@
-#include "BookRecord.h"
+#include "Book_Inventory.h"
 #include "colormod.h" // namespace Color
 #include <cstring>
 #include <iostream>
@@ -15,13 +15,7 @@ int test_BookRecordDefault()
     char tempTitle[32];
     br->getTitle(tempTitle);
 
-    int cl;
-    br->getClassification(cl);
-
-    double cost;
-    br->getCost(&cost);
-
-    if(strcmp(tempTitle, "") != 0 || br->getStockNum() != 0 || cl != 0 || cost != 0.00 || br->getNumberInStock() != 0)
+    if(strcmp(tempTitle, "") != 0 || br->getStockNum() != 0 || br->getClassification() != 0 || br->getCost() != 0.00 || br->getNumberInStock() != 0)
     {
         cout << "BookRecordDefault cosntructor test " << fail_color << "failed" << def_color << endl;
         return 0;
@@ -83,9 +77,7 @@ void test_setStockNum()
 void test_getClassification()
 {
     BookRecord *br = new BookRecord("foo bar", 123456, 1, 3.45);
-    int cl;
-    br->getClassification(cl);
-    if(cl == 1)
+    if(br->getClassification() == 1)
     {
         cout << "getClassification test " << pass_color << "passed" << def_color << endl;
     } else {
@@ -97,9 +89,7 @@ void test_setClassification()
 {
     BookRecord *br = new BookRecord("foo bar", 123456, 1, 3.45);
     br->setClassification(4);
-    int cl;
-    br->getClassification(cl);
-    if(cl == 4)
+    if(br->getClassification() == 4)
     {
         cout << "getClassification test " << pass_color << "passed" << def_color << endl;
     } else {
@@ -112,8 +102,7 @@ void test_getCost()
     BookRecord *br = new BookRecord("foo bar", 123456, 1, 3.45);
     double cost;
     double expected_cost = 3.45;
-    br->getCost(&cost);
-    if(cost == expected_cost)
+    if(br->getCost() == expected_cost)
     {
         cout << "getCost test " << pass_color << "passed" << def_color << endl;
     } else {
@@ -168,17 +157,17 @@ void test_printRecord()
 int main()
 {
 
-    test_BookRecordDefault();
-    test_getTitle();
-    test_setTitle();
-    test_getStockNum();
-    test_setStockNum();
-    test_getClassification();
-    test_setClassification();
-    test_getCost();
-    test_setCost();
-    test_getNumberInStock();
-    test_setNumberInStock();
+    //test_BookRecordDefault();
+    //test_getTitle();
+    //test_setTitle();
+    //test_getStockNum();
+    //test_setStockNum();
+    //test_getClassification();
+    //test_setClassification();
+    //test_getCost();
+    //test_setCost();
+    //test_getNumberInStock();
+    //test_setNumberInStock();
     test_printRecord();
 
     return 0;

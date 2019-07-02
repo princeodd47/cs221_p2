@@ -13,6 +13,7 @@ class BookRecord {
         int m_iClassification;
         double m_dCost;
         int m_iCount;
+        BookRecord *m_pNext;
     public:
         BookRecord();
         BookRecord(const char *title, long sn, int cl, double cost);
@@ -21,11 +22,13 @@ class BookRecord {
         void setTitle(const char *title);
         long getStockNum();
         void setStockNum(long sn);
-        void getClassification(int& cl);
+        int getClassification();
         void setClassification(int cl);
-        void getCost(double *c);
+        double getCost();
         void setCost(double c);
         int getNumberInStock();
         void setNumberInStock(int count);
         void printRecord();
+        void setNext(BookRecord *next);
+        BookRecord *getNext();
 };
