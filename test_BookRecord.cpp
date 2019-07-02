@@ -149,16 +149,13 @@ void test_setNumberInStock()
 
 void test_printRecord()
 {
-    BookRecord *br = new BookRecord("foo bar", 123456, 5, 3.45);
-    cout << "test_printRecord needs to be checked " << warn_color << "manually" << def_color << endl;
-    br->printRecord();
-}
+    char tempTitle[32];
+    strcpy(tempTitle , "foo bar");
 
-void test_getNext()
-{
-    //BookRecord *br = new BookRecord("foo bar", 123456, 5, 3.45);
-    //br->getNext();
-    
+    BookRecord *br = new BookRecord(tempTitle, 123456, 5, 3.45);
+    cout << "test_printRecord needs to be checked " << warn_color << "manually" << def_color << endl;
+
+    br->printRecord();
 }
 
 void test_setNext_getNext()
@@ -187,20 +184,20 @@ void test_readInventory()
 
 int main()
 {
-    //cout << "BookRecord Tests" << endl;
-    //test_BookRecordDefault();
-    //test_getTitle();
-    //test_setTitle();
-    //test_getStockNum();
-    //test_setStockNum();
-    //test_getClassification();
-    //test_setClassification();
-    //test_getCost();
-    //test_setCost();
-    //test_getNumberInStock();
-    //test_setNumberInStock();
-    //test_printRecord();
-    //test_setNext_getNext();
+    cout << "BookRecord Tests" << endl;
+    test_BookRecordDefault();
+    test_getTitle();
+    test_setTitle();
+    test_getStockNum();
+    test_setStockNum();
+    test_getClassification();
+    test_setClassification();
+    test_getCost();
+    test_setCost();
+    test_getNumberInStock();
+    test_setNumberInStock();
+    test_printRecord();
+    test_setNext_getNext();
 
     cout << "Book_InventoryTests" << endl;
     test_readInventory();
