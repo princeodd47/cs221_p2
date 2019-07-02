@@ -132,7 +132,7 @@ void BookRecord::printRecord()
 //--------------------------------------------------------
 void BookRecord::setNext(BookRecord *next)
 {
-    // TODO: cool code goes here.
+    m_pNext = next;
 }
 
 //--------------------------------------------------------
@@ -140,8 +140,6 @@ void BookRecord::setNext(BookRecord *next)
 //--------------------------------------------------------
 BookRecord *BookRecord::getNext()
 {
-    // TODO: cool code goes here.
-    BookRecord *br = new BookRecord();
-    return br;
+    return m_pNext;
 }
 

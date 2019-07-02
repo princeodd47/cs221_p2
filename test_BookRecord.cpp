@@ -154,6 +154,31 @@ void test_printRecord()
     br->printRecord();
 }
 
+void test_getNext()
+{
+    //BookRecord *br = new BookRecord("foo bar", 123456, 5, 3.45);
+    //br->getNext();
+    
+}
+
+void test_setNext()
+{
+    
+    BookRecord *br_1 = new BookRecord("foo", 123456, 5, 3.45);
+    BookRecord *br_2 = new BookRecord("bar", 654321, 1, 2.12);
+    br_1->setNext(br_2);
+    BookRecord *test_br = br_1->getNext();
+
+    char tempTitle[32];
+    test_br->getTitle(tempTitle);
+    if(strcmp(tempTitle, "bar") == 0)
+    {
+        cout << "getTitle test " << pass_color << "passed" << def_color << endl;
+    } else {
+        cout << "getTitle test " << fail_color << "failed" << def_color << endl;
+    }
+}
+
 void test_readInventory()
 {
     Book_Inventory *testInv = new Book_Inventory();
@@ -162,7 +187,7 @@ void test_readInventory()
 
 int main()
 {
-
+    cout << "BookRecord Tests" << endl;
     //test_BookRecordDefault();
     //test_getTitle();
     //test_setTitle();
@@ -175,6 +200,10 @@ int main()
     //test_getNumberInStock();
     //test_setNumberInStock();
     test_printRecord();
+    test_setNext();
+
+    cout << "Book_InventoryTests" << endl;
+    //test_readInventory();
 
     return 0;
 }
