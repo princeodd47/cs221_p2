@@ -35,7 +35,7 @@ class Book_Inventory
         bool addBook(BookRecord *br);
         // Remove a book from the list or print message if not found
         BookRecord *removeBook(long stockNum);
-       // Search by stock number return pointer to node or NULL if not found
+        // Search by stock number return pointer to node or NULL if not found
         BookRecord *searchByStockNumber(long stockNum);
         // Search for all books given classification, print all data
         void searchByClassification(int cl);

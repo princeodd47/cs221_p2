@@ -41,6 +41,37 @@ bool Book_Inventory::addBook(BookRecord *br)
     {
         m_pHead = br;
     }
+    else
+    {
+        BookRecord *tempBr = new BookRecord();
+        BookRecord *parentBr = new BookRecord();
+        tempBr = m_pHead;
+        parentBr = NULL;
+        while((tempBr != NULL) && (tempBr->getStockNum() < br->getStockNum()))
+        {
+            parentBr = tempBr;
+            tempBr = tempBr->getNext();
+        }
+        if(parentBr == NULL)
+        {
+            //cout << "addBook() parentBr is NULL" << endl;
+            //cout << "m_pHead->getStockNum()=" << m_pHead->getStockNum() << endl;
+            //cout << "br->getStockNum()=" << br->getStockNum() << endl;
+            //cout << "tempBr->getStockNum()=" << tempBr->getStockNum() << endl;
+            br->setNext(tempBr);
+            //BookRecord *nextBr = br->getNext();
+            //cout << "nextBr->getStockNum()=" << nextBr->getStockNum() << endl;
+
+            m_pHead = br;
+            //cout << "m_pHead->getStockNum()=" << m_pHead->getStockNum() << endl;
+        }
+        else
+        {
+            parentBr->setNext(br);
+            br->setNext(tempBr);
+        }
+        return true;
+    }
     return true;
 }
 
@@ -50,10 +81,8 @@ bool Book_Inventory::addBook(BookRecord *br)
 //--------------------------------------------
 BookRecord *Book_Inventory::searchByStockNumber(long stockNum)
 {
-    cout << "searchByStockNumber() called with " << stockNum << endl;
     BookRecord *tempBr;
     tempBr = m_pHead;
-    cout << tempBr->getStockNum() << endl;
     while((tempBr != NULL) && (tempBr->getStockNum() != stockNum))
     {
         tempBr = tempBr->getNext();
@@ -107,10 +136,15 @@ int Book_Inventory::getNumberInStock(long sn)
 //--------------------------------------------
 void Book_Inventory::printInventory()
 {
-    //TODO: Do cool things here.
     if(m_pHead != NULL)
     {
-        cout << "List is not empty" << endl;
+        BookRecord *tempBr = new BookRecord();
+        tempBr = m_pHead;
+        while(tempBr != NULL)
+        {
+            tempBr->printRecord();
+            tempBr = tempBr->getNext();
+        }
     }
     else
     {
