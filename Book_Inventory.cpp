@@ -37,7 +37,10 @@ void Book_Inventory::ClearInventory()
 //--------------------------------------------
 bool Book_Inventory::addBook(BookRecord *br)
 {
-    //TODO: Do cool things here.
+    if(m_pHead == NULL)
+    {
+        m_pHead = br;
+    }
     return true;
 }
 
@@ -47,9 +50,26 @@ bool Book_Inventory::addBook(BookRecord *br)
 //--------------------------------------------
 BookRecord *Book_Inventory::searchByStockNumber(long stockNum)
 {
-    //TODO: Do cool things here.
-    BookRecord *br = new BookRecord();
-    return br;
+    cout << "searchByStockNumber() called with " << stockNum << endl;
+    BookRecord *tempBr;
+    tempBr = m_pHead;
+    cout << tempBr->getStockNum() << endl;
+    while((tempBr != NULL) && (tempBr->getStockNum() != stockNum))
+    {
+        tempBr = tempBr->getNext();
+    }
+
+    if(tempBr == NULL)
+    {
+        return NULL;
+    }
+    else
+    {
+        BookRecord *retBr = new BookRecord();
+        retBr = tempBr;
+        retBr->setNext(NULL);
+        return retBr;
+    }
 }
 
 //--------------------------------------------
@@ -88,6 +108,14 @@ int Book_Inventory::getNumberInStock(long sn)
 void Book_Inventory::printInventory()
 {
     //TODO: Do cool things here.
+    if(m_pHead != NULL)
+    {
+        cout << "List is not empty" << endl;
+    }
+    else
+    {
+        cout << "List is empty" << endl;
+    }
 }
 
 //--------------------------------------------
@@ -145,6 +173,7 @@ bool Book_Inventory::readInventory(const char *filename)
         tempBr->setNumberInStock(atoi(line));
 
         tempBr->printRecord();
+        //addBook(tempBr);
     }
     return true;
 }

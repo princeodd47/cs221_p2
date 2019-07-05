@@ -15,7 +15,12 @@ int test_BookRecordDefault()
     char tempTitle[32];
     br->getTitle(tempTitle);
 
-    if(strcmp(tempTitle, "") != 0 || br->getStockNum() != 0 || br->getClassification() != 0 || br->getCost() != 0.00 || br->getNumberInStock() != 0)
+    if(strcmp(tempTitle, "") != 0 ||
+       br->getStockNum() != 0 ||
+       br->getClassification() != 0 ||
+       br->getCost() != 0.00 ||
+       br->getNumberInStock() != 0 ||
+       br->getNext() != NULL)
     {
         cout << "BookRecordDefault cosntructor test " << fail_color << "failed" << def_color << endl;
         return 0;
@@ -182,6 +187,24 @@ void test_readInventory()
     testInv->readInventory("BookData.txt");
 }
 
+void test_searchByStockNumber()
+{
+    Book_Inventory *testInv = new Book_Inventory();
+    BookRecord *br = new BookRecord("foo bar", 123456, 1, 3.45);
+    testInv->addBook(br);
+    long testStockNum = 123456;
+    BookRecord *testBr = new BookRecord();
+
+    testBr = testInv->searchByStockNumber(testStockNum);
+
+    if((testBr != NULL) && (testBr->getStockNum() == 123456) && (testBr->getNext() == NULL))
+    {
+        cout << "addBookToEmptyList test " << pass_color << "passed" << def_color << endl;
+    } else {
+        cout << "addBookToEmptyList test " << fail_color << "failed" << def_color << endl;
+    }
+}
+
 int main()
 {
     cout << "BookRecord Tests" << endl;
@@ -198,9 +221,11 @@ int main()
     test_setNumberInStock();
     test_printRecord();
     test_setNext_getNext();
+    cout << endl;
 
     cout << "Book_InventoryTests" << endl;
     test_readInventory();
+    test_searchByStockNumber();
 
     return 0;
 }
