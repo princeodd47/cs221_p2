@@ -24,11 +24,18 @@ Book_Inventory::~Book_Inventory()
 
 //--------------------------------------------
 // Function: ClearInventory()
-// Purpose: 
+// Purpose: Remove all items from the list.
 //--------------------------------------------
 void Book_Inventory::ClearInventory()
 {
-    //TODO: Do cool things here.
+    BookRecord *tempBr = m_pHead;
+    while(tempBr != NULL)
+    {
+        m_pHead = m_pHead->getNext();
+        tempBr = NULL;
+        delete tempBr;
+        tempBr = m_pHead;
+    }
 }
 
 //--------------------------------------------
@@ -37,28 +44,129 @@ void Book_Inventory::ClearInventory()
 //--------------------------------------------
 bool Book_Inventory::addBook(BookRecord *br)
 {
-    //TODO: Do cool things here.
+    if(m_pHead == NULL)
+    {
+        m_pHead = br;
+    }
+    else
+    {
+        BookRecord *tempBr = new BookRecord();
+        BookRecord *parentBr = new BookRecord();
+        tempBr = m_pHead;
+        parentBr = NULL;
+        while((tempBr != NULL) && (tempBr->getStockNum() < br->getStockNum()))
+        {
+            parentBr = tempBr;
+            tempBr = tempBr->getNext();
+        }
+        if(parentBr == NULL)
+        {
+            br->setNext(tempBr);
+            m_pHead = br;
+        }
+        else
+        {
+            parentBr->setNext(br);
+            br->setNext(tempBr);
+        }
+        return true;
+    }
     return true;
 }
 
 //--------------------------------------------
+//Function: removeBook(long stockNum)
+// Purpose: Search by stock number return pointer to node or NULL if not found
+//--------------------------------------------
+BookRecord *Book_Inventory::removeBook(long stockNum)
+{
+    if(m_pHead == NULL)
+    {
+        return NULL;
+    }
+
+    BookRecord *tempBr = m_pHead;
+    BookRecord *parentBr = NULL;
+    BookRecord *returnBr = NULL;
+    while((tempBr != NULL) && (tempBr->getStockNum() != stockNum))
+    {
+        parentBr = tempBr;
+        tempBr = tempBr->getNext();
+    }
+
+    if(tempBr == NULL)
+    {
+        return NULL;
+    }
+    else if(parentBr == NULL)
+    {
+        m_pHead = m_pHead->getNext();
+        returnBr = tempBr;
+        tempBr = NULL;
+        delete tempBr;
+        return returnBr;
+    }
+    else
+    {
+        parentBr->setNext(tempBr->getNext());
+        returnBr = tempBr;
+        tempBr = NULL;
+        delete tempBr;
+        return returnBr;
+    }
+    return NULL;
+}
+
+
+
+//--------------------------------------------
 // Function: searchByStockNumber()
-// Purpose: 
+// Purpose: Search by stock number return pointer to node or NULL if not found
 //--------------------------------------------
 BookRecord *Book_Inventory::searchByStockNumber(long stockNum)
 {
-    //TODO: Do cool things here.
-    BookRecord *br = new BookRecord();
-    return br;
+    BookRecord *tempBr;
+    tempBr = m_pHead;
+    while((tempBr != NULL) && (tempBr->getStockNum() != stockNum))
+    {
+        tempBr = tempBr->getNext();
+    }
+
+    if(tempBr == NULL)
+    {
+        return NULL;
+    }
+    else
+    {
+        BookRecord *retBr = new BookRecord();
+        retBr = tempBr;
+        retBr->setNext(NULL);
+        return retBr;
+    }
 }
 
 //--------------------------------------------
 // Function: searchByClassification()
-// Purpose: 
+// Purpose: Search for all books given classification, print all data
 //--------------------------------------------
 void Book_Inventory::searchByClassification(int cl)
 {
-    //TODO: Do cool things here.
+    int counter = 0;
+    BookRecord *tempBr;
+    tempBr = m_pHead;
+    while(tempBr != NULL)
+    {
+        if(tempBr->getClassification() == cl)
+        {
+            counter++;
+            tempBr->printRecord();
+        }
+        tempBr = tempBr->getNext();
+    }
+    if(counter == 0)
+    {
+        cout << "No records found with classification " << cl << endl;
+    }
 }
 
 //--------------------------------------------
@@ -67,7 +175,26 @@ void Book_Inventory::searchByClassification(int cl)
 //--------------------------------------------
 void Book_Inventory::searchByCost(double min, double max)
 {
-    //TODO: Do cool things here.
+    int counter = 0;
+    BookRecord *tempBr;
+    tempBr = m_pHead;
+    while(tempBr != NULL)
+    {
+        if((tempBr->getCost() >= min) && tempBr->getCost() <= max)
+        {
+            counter++;
+            tempBr->printRecord();
+        }
+        tempBr = tempBr->getNext();
+    }
+    if(counter == 0)
+    {
+        cout << "No records found with cost range of "
+             << min
+             << " and "
+             << max
+             << endl;
+    }
 }
 
 //--------------------------------------------
@@ -76,9 +203,16 @@ void Book_Inventory::searchByCost(double min, double max)
 //--------------------------------------------
 int Book_Inventory::getNumberInStock(long sn)
 {
-    //TODO: Do cool things here.
-    int numInStock = 0;
-    return numInStock;
+    BookRecord *tempBr = searchByStockNumber(sn);
+    if(tempBr == NULL)
+    {
+        cout << "Record not found for " << sn << endl;
+        return 0;
+    }
+    else
+    {
+        return tempBr->getNumberInStock();
+    }
 }
 
 //--------------------------------------------
@@ -87,7 +221,20 @@ int Book_Inventory::getNumberInStock(long sn)
 //--------------------------------------------
 void Book_Inventory::printInventory()
 {
-    //TODO: Do cool things here.
+    if(m_pHead != NULL)
+    {
+        BookRecord *tempBr = new BookRecord();
+        tempBr = m_pHead;
+        while(tempBr != NULL)
+        {
+            tempBr->printRecord();
+            tempBr = tempBr->getNext();
+        }
+    }
+    else
+    {
+        cout << "List is empty" << endl;
+    }
 }
 
 //--------------------------------------------
@@ -113,12 +260,39 @@ bool Book_Inventory::readInventory(const char *filename)
     // Read number of books
     getNextLine(line, 128);
     numBooks = atoi(line);
+
+    /*
+     * Remaining lines will give the stock number, Title, classification, 
+     * cost and number in stock
+     */
     for(int i=0; i<numBooks; i++)
     {
+        BookRecord *tempBr = new BookRecord();
 
-        // ------------------------------------------
-        // Your code to read the inventory goes here
-        // ------------------------------------------
+        // stockNum
+        getNextLine(line, 128);
+        tempBr->setStockNum(atol(line));
+
+        // title
+        getNextLine(line, 128);
+        char tempTitle[128];
+        strcpy(tempTitle, line);
+        tempBr->setTitle(tempTitle);
+
+        // classification
+        getNextLine(line, 128);
+        tempBr->setClassification(atoi(line));
+
+        // cost
+        getNextLine(line, 128);
+        tempBr->setCost(atof(line));
+
+        // numInStock
+        getNextLine(line, 128);
+        tempBr->setNumberInStock(atoi(line));
+
+        //tempBr->printRecord();
+        addBook(tempBr);
     }
     return true;
 }

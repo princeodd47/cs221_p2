@@ -16,6 +16,7 @@ BookRecord::BookRecord() {
     m_iClassification = 0;
     m_dCost = 0.0;
     m_iCount = 0;
+    m_pNext = NULL;
 }
 
 //--------------------------------------------------------
@@ -28,6 +29,7 @@ BookRecord::BookRecord(const char *title, long sn, int cl, double cost)
     m_iClassification = cl;
     m_dCost = cost;
     m_iCount = 1;
+    m_pNext = NULL;
 }
 
 //--------------------------------------------------------
@@ -132,7 +134,7 @@ void BookRecord::printRecord()
 //--------------------------------------------------------
 void BookRecord::setNext(BookRecord *next)
 {
-    // TODO: cool code goes here.
+    m_pNext = next;
 }
 
 //--------------------------------------------------------
@@ -140,8 +142,6 @@ void BookRecord::setNext(BookRecord *next)
 //--------------------------------------------------------
 BookRecord *BookRecord::getNext()
 {
-    // TODO: cool code goes here.
-    BookRecord *br = new BookRecord();
-    return br;
+    return m_pNext;
 }
 

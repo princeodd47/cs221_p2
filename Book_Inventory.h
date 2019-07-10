@@ -23,17 +23,29 @@ class Book_Inventory
         ifstream       m_InFile;                		// File containing the inventory
 
     public:
-        Book_Inventory();                       		// Class constructor
-        ~Book_Inventory();                      		// Class destructor. Must free all list memory
-        void ClearInventory();                       		// Remove all items from the list
-        bool readInventory(const char *filename);     	// Read inventory file and build the list
-        bool addBook(BookRecord *br);           		// Add the given book to the list 
-        BookRecord *removeBook(long stockNum);  		// Remove a book from the list or print message if not found
-        BookRecord *searchByStockNumber(long stockNum);	// Search by stock number return pointer to node or NULL if not found
-        void searchByClassification(int cl);   			// Search for all books given classification, print all data
-        void searchByCost(double min, double max);		// Search for all books within the given cost range
-        int getNumberInStock(long sn);          		// Get number of books in stock for the given stock number 
-        void printInventory();                        	// Print all information on all books in the inventory.
+        // Class constructor
+        Book_Inventory();
+        // Class destructor. Must free all list memory
+        ~Book_Inventory();
+        // Remove all items from the list
+        void ClearInventory();
+        // Read inventory file and build the list
+        bool readInventory(const char *filename);
+        // Add the given book to the list 
+        bool addBook(BookRecord *br);
+        // Remove a book from the list or print message if not found
+        BookRecord *removeBook(long stockNum);
+        // Search by stock number return pointer to node or NULL if not found
+        BookRecord *searchByStockNumber(long stockNum);
+        // Search for all books given classification, print all data
+        void searchByClassification(int cl);
+        // Search for all books within the given cost range
+        void searchByCost(double min, double max);
+        // Get number of books in stock for the given stock number 
+        int getNumberInStock(long sn);
+        // Print all information on all books in the inventory.
+        void printInventory();
     private:
-      bool getNextLine(char *line, int lineLen);   		// read next line from a file
+        // read next line from a file
+        bool getNextLine(char *line, int lineLen);
 };
