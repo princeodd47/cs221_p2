@@ -9,7 +9,7 @@ using namespace std;
 //--------------------------------------------
 Book_Inventory::Book_Inventory()
 {
-
+    readInventory("BookData.txt");
 }
 
 //--------------------------------------------
@@ -19,7 +19,7 @@ Book_Inventory::Book_Inventory()
 //--------------------------------------------
 Book_Inventory::~Book_Inventory()
 {
-    m_InFile.close();
+    ClearInventory();
 }
 
 //--------------------------------------------
@@ -80,26 +80,31 @@ bool Book_Inventory::addBook(BookRecord *br)
 //--------------------------------------------
 BookRecord *Book_Inventory::removeBook(long stockNum)
 {
+    cout << "removeBook called" << endl;
     if(m_pHead == NULL)
     {
         return NULL;
     }
 
     BookRecord *tempBr = m_pHead;
+    cout << "BookRecord *tempBr = m_pHead;" << endl;
     BookRecord *parentBr = NULL;
     BookRecord *returnBr = NULL;
     while((tempBr != NULL) && (tempBr->getStockNum() != stockNum))
     {
+        cout << "tempBr != NULL && tempBr->getStockNum() != stockNum" << endl;
         parentBr = tempBr;
         tempBr = tempBr->getNext();
     }
 
     if(tempBr == NULL)
     {
+        cout << "tempBr == NULL" << endl;
         return NULL;
     }
     else if(parentBr == NULL)
     {
+        cout << "parentBr == NULL" << endl;
         m_pHead = m_pHead->getNext();
         returnBr = tempBr;
         tempBr = NULL;
@@ -108,6 +113,7 @@ BookRecord *Book_Inventory::removeBook(long stockNum)
     }
     else
     {
+        cout << "final else" << endl;
         parentBr->setNext(tempBr->getNext());
         returnBr = tempBr;
         tempBr = NULL;
@@ -291,9 +297,9 @@ bool Book_Inventory::readInventory(const char *filename)
         getNextLine(line, 128);
         tempBr->setNumberInStock(atoi(line));
 
-        //tempBr->printRecord();
         addBook(tempBr);
     }
+    m_InFile.close();
     return true;
 }
 
