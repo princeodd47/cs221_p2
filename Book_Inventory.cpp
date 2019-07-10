@@ -24,11 +24,18 @@ Book_Inventory::~Book_Inventory()
 
 //--------------------------------------------
 // Function: ClearInventory()
-// Purpose: 
+// Purpose: Remove all items from the list.
 //--------------------------------------------
 void Book_Inventory::ClearInventory()
 {
-    //TODO: Do cool things here.
+    BookRecord *tempBr = m_pHead;
+    while(tempBr != NULL)
+    {
+        m_pHead = m_pHead->getNext();
+        tempBr = NULL;
+        delete tempBr;
+        tempBr = m_pHead;
+    }
 }
 
 //--------------------------------------------
@@ -54,16 +61,8 @@ bool Book_Inventory::addBook(BookRecord *br)
         }
         if(parentBr == NULL)
         {
-            //cout << "addBook() parentBr is NULL" << endl;
-            //cout << "m_pHead->getStockNum()=" << m_pHead->getStockNum() << endl;
-            //cout << "br->getStockNum()=" << br->getStockNum() << endl;
-            //cout << "tempBr->getStockNum()=" << tempBr->getStockNum() << endl;
             br->setNext(tempBr);
-            //BookRecord *nextBr = br->getNext();
-            //cout << "nextBr->getStockNum()=" << nextBr->getStockNum() << endl;
-
             m_pHead = br;
-            //cout << "m_pHead->getStockNum()=" << m_pHead->getStockNum() << endl;
         }
         else
         {
@@ -76,8 +75,53 @@ bool Book_Inventory::addBook(BookRecord *br)
 }
 
 //--------------------------------------------
+//Function: removeBook(long stockNum)
+// Purpose: Search by stock number return pointer to node or NULL if not found
+//--------------------------------------------
+BookRecord *Book_Inventory::removeBook(long stockNum)
+{
+    if(m_pHead == NULL)
+    {
+        return NULL;
+    }
+
+    BookRecord *tempBr = m_pHead;
+    BookRecord *parentBr = NULL;
+    BookRecord *returnBr = NULL;
+    while((tempBr != NULL) && (tempBr->getStockNum() != stockNum))
+    {
+        parentBr = tempBr;
+        tempBr = tempBr->getNext();
+    }
+
+    if(tempBr == NULL)
+    {
+        return NULL;
+    }
+    else if(parentBr == NULL)
+    {
+        m_pHead = m_pHead->getNext();
+        returnBr = tempBr;
+        tempBr = NULL;
+        delete tempBr;
+        return returnBr;
+    }
+    else
+    {
+        parentBr->setNext(tempBr->getNext());
+        returnBr = tempBr;
+        tempBr = NULL;
+        delete tempBr;
+        return returnBr;
+    }
+    return NULL;
+}
+
+
+
+//--------------------------------------------
 // Function: searchByStockNumber()
-// Purpose: 
+// Purpose: Search by stock number return pointer to node or NULL if not found
 //--------------------------------------------
 BookRecord *Book_Inventory::searchByStockNumber(long stockNum)
 {
@@ -103,11 +147,26 @@ BookRecord *Book_Inventory::searchByStockNumber(long stockNum)
 
 //--------------------------------------------
 // Function: searchByClassification()
-// Purpose: 
+// Purpose: Search for all books given classification, print all data
 //--------------------------------------------
 void Book_Inventory::searchByClassification(int cl)
 {
-    //TODO: Do cool things here.
+    int counter = 0;
+    BookRecord *tempBr;
+    tempBr = m_pHead;
+    while(tempBr != NULL)
+    {
+        if(tempBr->getClassification() == cl)
+        {
+            counter++;
+            tempBr->printRecord();
+        }
+        tempBr = tempBr->getNext();
+    }
+    if(counter == 0)
+    {
+        cout << "No records found with classification " << cl << endl;
+    }
 }
 
 //--------------------------------------------
@@ -116,7 +175,26 @@ void Book_Inventory::searchByClassification(int cl)
 //--------------------------------------------
 void Book_Inventory::searchByCost(double min, double max)
 {
-    //TODO: Do cool things here.
+    int counter = 0;
+    BookRecord *tempBr;
+    tempBr = m_pHead;
+    while(tempBr != NULL)
+    {
+        if((tempBr->getCost() >= min) && tempBr->getCost() <= max)
+        {
+            counter++;
+            tempBr->printRecord();
+        }
+        tempBr = tempBr->getNext();
+    }
+    if(counter == 0)
+    {
+        cout << "No records found with cost range of "
+             << min
+             << " and "
+             << max
+             << endl;
+    }
 }
 
 //--------------------------------------------
@@ -125,9 +203,16 @@ void Book_Inventory::searchByCost(double min, double max)
 //--------------------------------------------
 int Book_Inventory::getNumberInStock(long sn)
 {
-    //TODO: Do cool things here.
-    int numInStock = 0;
-    return numInStock;
+    BookRecord *tempBr = searchByStockNumber(sn);
+    if(tempBr == NULL)
+    {
+        cout << "Record not found for " << sn << endl;
+        return 0;
+    }
+    else
+    {
+        return tempBr->getNumberInStock();
+    }
 }
 
 //--------------------------------------------
@@ -206,8 +291,8 @@ bool Book_Inventory::readInventory(const char *filename)
         getNextLine(line, 128);
         tempBr->setNumberInStock(atoi(line));
 
-        tempBr->printRecord();
-        //addBook(tempBr);
+        //tempBr->printRecord();
+        addBook(tempBr);
     }
     return true;
 }

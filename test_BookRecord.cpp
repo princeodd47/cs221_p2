@@ -182,9 +182,14 @@ void test_setNext_getNext()
 
 void test_readInventory()
 {
+    cout << endl;
+    cout << "===================" << endl;
+    cout << "test_readInventory needs to be checked " << warn_color << "manually" << def_color << endl;
+    cout << "===================" << endl;
     Book_Inventory *testInv = new Book_Inventory();
     testInv->readInventory("BookData.txt");
-    cout << "searchByStockNumber test " << fail_color << "no assertions" << def_color << endl;
+    testInv->printInventory();
+    cout << endl;
 }
 
 void test_searchByStockNumber()
@@ -239,8 +244,12 @@ void test_addBookToEmptyList()
     }
 }
 
-void test_addBookInOrder()
+void test_removeBook()
 {
+    cout << endl;
+    cout << "===================" << endl;
+    cout << "test_removeBook needs to be checked " << warn_color << "manually" << def_color << endl;
+    cout << "===================" << endl;
     Book_Inventory *testInv = new Book_Inventory();
     BookRecord *br_1 = new BookRecord("foo", 123456, 5, 3.45);
     BookRecord *br_2 = new BookRecord("bar", 654321, 1, 2.12);
@@ -255,48 +264,176 @@ void test_addBookInOrder()
     testInv->addBook(br_5);
     testInv->addBook(br_6);
 
-    BookRecord *testBr = new BookRecord();
-    BookRecord *nextBr = new BookRecord();
-    testBr = testInv->searchByStockNumber(114321);
-    nextBr = testBr->getNext();
-    // searchbyStockNumber sets next to NULL, which is why this fails
-    if(nextBr == NULL) { cout << "nextBR is NULL" << endl; }
-    //cout << "testBr->getStockNum()=" << testBr->getStockNum() << endl;
-    //cout << "nextBr->getStockNum()=" << nextBr->getStockNum() << endl;
-    int recordCount = 1;
-
-    while(nextBr != NULL) 
+    testInv->removeBook(654321);
+    BookRecord *testBr = testInv->searchByStockNumber(654321);
+    if(testBr != NULL)
     {
-        long curStockNum = testBr->getStockNum();
-        long nextStockNum = nextBr->getStockNum();
-        if(curStockNum > nextStockNum)
-        {
-            cout << "addBookInOrder test " << fail_color << "failed" << def_color << endl;
-            cout << "\t" << curStockNum << " > " << nextStockNum << endl;
-            break;
-        }
-        else
-        {
-            nextBr = nextBr->getNext();
-            testBr = nextBr;
-            cout << "recordCount=" << recordCount << endl;
-            recordCount++;
-        }
+        cout << "removeBook test " << fail_color << "failed" << def_color << endl;
     }
-    if(recordCount == 6)
+    testInv->removeBook(114321);
+    testBr = testInv->searchByStockNumber(114321);
+    if(testBr != NULL)
     {
-        cout << "addBookInOrder test " << pass_color << "pass" << def_color << endl;
+        cout << "removeBook test " << fail_color << "failed" << def_color << endl;
+    }
+    testInv->removeBook(754321);
+    testBr = testInv->searchByStockNumber(754321);
+    if(testBr != NULL)
+    {
+        cout << "removeBook test " << fail_color << "failed" << def_color << endl;
+    }
+    testInv->printInventory();
+}
+
+void test_removeBookNotFound()
+{
+    cout << endl;
+    cout << "===================" << endl;
+    cout << "test_removeBookNotFound" << endl;
+    cout << "===================" << endl;
+    Book_Inventory *testInv = new Book_Inventory();
+    BookRecord *br_1 = new BookRecord("foo", 123456, 5, 3.45);
+    BookRecord *br_2 = new BookRecord("bar", 654321, 1, 2.12);
+    BookRecord *br_3 = new BookRecord("baz", 554321, 2, 1.12);
+    BookRecord *br_4 = new BookRecord("ham", 254321, 3, 0.12);
+    BookRecord *br_5 = new BookRecord("spam", 754321, 4, 7.12);
+    BookRecord *br_6 = new BookRecord("eggs", 114321, 5, 6.12);
+    testInv->addBook(br_1);
+    testInv->addBook(br_2);
+    testInv->addBook(br_3);
+    testInv->addBook(br_4);
+    testInv->addBook(br_5);
+    testInv->addBook(br_6);
+
+    BookRecord *testBr = testInv->removeBook(5);
+    if(testBr == NULL)
+    {
+        cout << "removeBookNotFound test " << pass_color << "passed" << def_color << endl;
     }
     else
     {
-        cout << "addBookInOrder test " << fail_color << "failed" << def_color << endl;
-        cout << "\t" << "recordCount = " << recordCount << " and should = 6" << endl;
+        cout << "removeBookNotFound test " << fail_color << "failed" << def_color << endl;
     }
+}
+
+void test_inventoryGetNumberInStock()
+{
+    Book_Inventory *testInv = new Book_Inventory();
+    BookRecord *br_1 = new BookRecord("foo", 123456, 5, 3.45);
+    br_1->setNumberInStock(5);
+    testInv->addBook(br_1);
+
+    BookRecord *testBr = testInv->searchByStockNumber(123456);
+
+    if(testBr->getNumberInStock() == 5)
+    {
+        cout << "inventoryGetNumberInStock test " << pass_color << "passed" << def_color << endl;
+    }
+    else
+    {
+        cout << "inventoryGetNumberInStock test " << fail_color << "failed" << def_color << endl;
+    }
+}
+
+void test_searchByClassification()
+{
+    cout << endl;
+    cout << "===================" << endl;
+    cout << "test_searchByClassification needs to be checked " << warn_color << "manually" << def_color << endl;
+    cout << "===================" << endl;
+    Book_Inventory *testInv = new Book_Inventory();
+    BookRecord *br_1 = new BookRecord("foo", 123456, 5, 3.45);
+    BookRecord *br_2 = new BookRecord("bar", 654321, 1, 2.12);
+    BookRecord *br_3 = new BookRecord("baz", 554321, 2, 1.12);
+    BookRecord *br_4 = new BookRecord("ham", 254321, 3, 0.12);
+    BookRecord *br_5 = new BookRecord("spam", 754321, 4, 7.12);
+    BookRecord *br_6 = new BookRecord("eggs", 114321, 5, 6.12);
+    testInv->addBook(br_1);
+    testInv->addBook(br_2);
+    testInv->addBook(br_3);
+    testInv->addBook(br_4);
+    testInv->addBook(br_5);
+    testInv->addBook(br_6);
+
+    testInv->searchByClassification(5);
+}
+
+void test_searchByClassificationNoneFound()
+{
+    cout << endl;
+    cout << "===================" << endl;
+    cout << "test_searchByClassificationNoneFound needs to be checked " << warn_color << "manually" << def_color << endl;
+    cout << "===================" << endl;
+    Book_Inventory *testInv = new Book_Inventory();
+    BookRecord *br_1 = new BookRecord("foo", 123456, 5, 3.45);
+    BookRecord *br_2 = new BookRecord("bar", 654321, 1, 2.12);
+    BookRecord *br_3 = new BookRecord("baz", 554321, 2, 1.12);
+    BookRecord *br_4 = new BookRecord("ham", 254321, 3, 0.12);
+    BookRecord *br_5 = new BookRecord("spam", 754321, 4, 7.12);
+    BookRecord *br_6 = new BookRecord("eggs", 114321, 5, 6.12);
+    testInv->addBook(br_1);
+    testInv->addBook(br_2);
+    testInv->addBook(br_3);
+    testInv->addBook(br_4);
+    testInv->addBook(br_5);
+    testInv->addBook(br_6);
+
+    testInv->searchByClassification(55);
+}
+
+void test_searchByCost()
+{
+    cout << endl;
+    cout << "===================" << endl;
+    cout << "test_searchByCost needs to be checked " << warn_color << "manually" << def_color << endl;
+    cout << "===================" << endl;
+    Book_Inventory *testInv = new Book_Inventory();
+    BookRecord *br_1 = new BookRecord("foo", 123456, 5, 3.45);
+    BookRecord *br_2 = new BookRecord("bar", 654321, 1, 2.12);
+    BookRecord *br_3 = new BookRecord("baz", 554321, 2, 1.12);
+    BookRecord *br_4 = new BookRecord("ham", 254321, 3, 0.12);
+    BookRecord *br_5 = new BookRecord("spam", 754321, 4, 7.12);
+    BookRecord *br_6 = new BookRecord("eggs", 114321, 5, 6.12);
+    testInv->addBook(br_1);
+    testInv->addBook(br_2);
+    testInv->addBook(br_3);
+    testInv->addBook(br_4);
+    testInv->addBook(br_5);
+    testInv->addBook(br_6);
+
+    testInv->searchByCost(1.00, 3.00);
+}
+
+void test_searchByCostNoneFound()
+{
+    cout << endl;
+    cout << "===================" << endl;
+    cout << "test_searchByCostNoneFound needs to be checked " << warn_color << "manually" << def_color << endl;
+    cout << "===================" << endl;
+    Book_Inventory *testInv = new Book_Inventory();
+    BookRecord *br_1 = new BookRecord("foo", 123456, 5, 3.45);
+    BookRecord *br_2 = new BookRecord("bar", 654321, 1, 2.12);
+    BookRecord *br_3 = new BookRecord("baz", 554321, 2, 1.12);
+    BookRecord *br_4 = new BookRecord("ham", 254321, 3, 0.12);
+    BookRecord *br_5 = new BookRecord("spam", 754321, 4, 7.12);
+    BookRecord *br_6 = new BookRecord("eggs", 114321, 5, 6.12);
+    testInv->addBook(br_1);
+    testInv->addBook(br_2);
+    testInv->addBook(br_3);
+    testInv->addBook(br_4);
+    testInv->addBook(br_5);
+    testInv->addBook(br_6);
+
+    testInv->searchByCost(8.00, 9.00);
+    cout << endl;
 }
 
 void test_printInventory()
 {
+    cout << endl;
+    cout << "===================" << endl;
     cout << "test_printInventory needs to be checked " << warn_color << "manually" << def_color << endl;
+    cout << "===================" << endl;
     Book_Inventory *testInv = new Book_Inventory();
     BookRecord *br_1 = new BookRecord("foo", 123456, 5, 3.45);
     BookRecord *br_2 = new BookRecord("bar", 654321, 1, 2.12);
@@ -311,6 +448,30 @@ void test_printInventory()
     testInv->addBook(br_5);
     testInv->addBook(br_6);
 
+    testInv->printInventory();
+}
+
+void test_ClearInventory()
+{
+    cout << endl;
+    cout << "===================" << endl;
+    cout << "test_ClearInventory needs to be checked " << warn_color << "manually" << def_color << endl;
+    cout << "===================" << endl;
+    Book_Inventory *testInv = new Book_Inventory();
+    BookRecord *br_1 = new BookRecord("foo", 123456, 5, 3.45);
+    BookRecord *br_2 = new BookRecord("bar", 654321, 1, 2.12);
+    BookRecord *br_3 = new BookRecord("baz", 554321, 2, 1.12);
+    BookRecord *br_4 = new BookRecord("ham", 254321, 3, 0.12);
+    BookRecord *br_5 = new BookRecord("spam", 754321, 4, 7.12);
+    BookRecord *br_6 = new BookRecord("eggs", 114321, 5, 6.12);
+    testInv->addBook(br_1);
+    testInv->addBook(br_2);
+    testInv->addBook(br_3);
+    testInv->addBook(br_4);
+    testInv->addBook(br_5);
+    testInv->addBook(br_6);
+
+    testInv->ClearInventory();
     testInv->printInventory();
 }
 
@@ -337,9 +498,15 @@ int main()
     test_searchByStockNumber();
     test_searchByStockNumberNoneFound();
     test_addBookToEmptyList();
-    // How to test this?
-    //test_addBookInOrder();
+    test_removeBook();
+    test_removeBookNotFound();
+    test_searchByClassification();
+    test_searchByClassificationNoneFound();
+    test_searchByCost();
+    test_searchByCostNoneFound();
+    test_inventoryGetNumberInStock();
     test_printInventory();
+    test_ClearInventory();
 
     return 0;
 }
