@@ -4,7 +4,9 @@ OUTPUT = test_BookRecord
 all: test
 
 .PHONY: compile
-compile:
+compile: $(OUTPUT)
+
+$(OUTPUT): *.cpp *.h
 	@g++ -g -o $(OUTPUT) *.cpp *.h
 
 .PHONY: test
