@@ -183,8 +183,7 @@ void Book_Inventory::searchByCost(double min, double max)
 {
     int counter = 0;
     double cost = 0.00;
-    BookRecord *tempBr = new BookRecord;
-    tempBr = m_pHead;
+    BookRecord *tempBr = m_pHead;
     while(tempBr != NULL)
     {
         cost = tempBr->getCost();
@@ -204,7 +203,6 @@ void Book_Inventory::searchByCost(double min, double max)
              << max
              << endl;
     }
-    delete tempBr;
     tempBr = NULL;
 }
 

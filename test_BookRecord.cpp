@@ -227,6 +227,7 @@ void test_readInventory()
     cout << endl;
     cout << "===================" << endl;
     cout << "test_readInventory needs to be checked " << warn_color << "manually" << def_color << endl;
+    cout << "Expected output: 6 records and no duplicates" << endl;
     cout << "===================" << endl;
     Book_Inventory *testInv = new Book_Inventory();
     testInv->readInventory("BookData.txt");
@@ -284,6 +285,7 @@ void test_removeBook()
     cout << endl;
     cout << "===================" << endl;
     cout << "test_removeBook needs to be checked " << warn_color << "manually" << def_color << endl;
+    cout << "expected output length 3 and not 1234, 9876, 4567" << endl;
     cout << "===================" << endl;
     Book_Inventory *testInv = new Book_Inventory();
     testInv->readInventory("BookData.txt");
@@ -363,7 +365,6 @@ void test_inventoryGetNumberInStock()
 
 void test_searchByClassification()
 {
-    cout << endl;
     cout << "===================" << endl;
     cout << "test_searchByClassification needs to be checked " << warn_color << "manually" << def_color << endl;
     cout << "expected output count should be 3" << endl;
@@ -398,6 +399,7 @@ void test_searchByCost()
     cout << endl;
     cout << "===================" << endl;
     cout << "test_searchByCost needs to be checked " << warn_color << "manually" << def_color << endl;
+    cout << "expected output count is 2, with cost between 10.00 to 20.00" << endl;
     cout << "===================" << endl;
     Book_Inventory *testInv = new Book_Inventory();
     testInv->readInventory("BookData.txt");
@@ -465,15 +467,15 @@ int main()
     test_searchByStockNumber();
     test_searchByStockNumberNoneFound();
     test_inventoryGetNumberInStock();
+    test_removeBookNotFound();
     //manual tests
     test_readInventory();
     test_searchByClassification();
     test_searchByClassificationNoneFound();
     test_removeBook();
-    test_removeBookNotFound();
     test_searchByCost();
-    test_searchByCostNoneFound();
-    test_ClearInventory();
+    //test_searchByCostNoneFound();
+    //test_ClearInventory();
 
     return 0;
 }
