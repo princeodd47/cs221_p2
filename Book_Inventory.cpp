@@ -51,10 +51,9 @@ bool Book_Inventory::addBook(BookRecord *br)
         return true;
     }
 
-    BookRecord *curBr = new BookRecord();
-    BookRecord *prevBr = new BookRecord();
-    curBr = m_pHead;
-    prevBr = NULL;
+    BookRecord *curBr = m_pHead;
+    BookRecord *prevBr = NULL;
+
     while((curBr != NULL) && (curBr->getStockNum() < br->getStockNum()))
     {
         prevBr = curBr;
@@ -66,11 +65,18 @@ bool Book_Inventory::addBook(BookRecord *br)
         br->setNext(m_pHead);
         m_pHead = br;
     }
+    else if((curBr != NULL) && (br->getStockNum() == curBr->getStockNum()))
+    {
+        curBr->setNumberInStock(curBr->getNumberInStock() + br->getNumberInStock());
+    }
     else
     {
         prevBr->setNext(br);
         br->setNext(curBr);
     }
+
+    curBr = NULL;
+    prevBr = NULL;
 
     return true;
 }
@@ -253,7 +259,6 @@ bool Book_Inventory::readInventory(const char *filename)
 {
      char     line[128];
      int      numBooks;
-     int count = 1;
      // define other variables here as needed
 
     m_InFile.open(filename, ifstream::in);
@@ -298,8 +303,6 @@ bool Book_Inventory::readInventory(const char *filename)
         getNextLine(line, 128);
         tempBr->setNumberInStock(atoi(line));
 
-        cout << "Add book " << count << endl;
-        count++;
         addBook(tempBr);
     }
     m_InFile.close();

@@ -345,9 +345,8 @@ void test_inventoryGetNumberInStock()
     testInv->readInventory("BookData.txt");
 
     BookRecord *testBr = testInv->searchByStockNumber(5678);
-    cout << testBr->getStockNum() << endl;
 
-    if(testBr->getNumberInStock() == 2)
+    if(testBr->getNumberInStock() == 25)
     {
         cout << "inventoryGetNumberInStock test " << pass_color << "passed" << def_color << endl;
     }
@@ -426,22 +425,6 @@ void test_searchByCostNoneFound()
     testInv = NULL;
 }
 
-void test_printInventory()
-{
-    cout << endl;
-    cout << "===================" << endl;
-    cout << "test_printInventory needs to be checked " << warn_color << "manually" << def_color << endl;
-    cout << "expected output count should be 2" << endl;
-    cout << "===================" << endl;
-    Book_Inventory *testInv = new Book_Inventory();
-    testInv->readInventory("BookData.txt");
-
-    testInv->printInventory();
-
-    delete testInv;
-    testInv = NULL;
-}
-
 void test_ClearInventory()
 {
     cout << endl;
@@ -478,20 +461,19 @@ int main()
     //cout << endl;
 
     cout << "Book_InventoryTests" << endl;
+    //auto tests
+    test_searchByStockNumber();
+    test_searchByStockNumberNoneFound();
+    test_inventoryGetNumberInStock();
+    //manual tests
     test_readInventory();
-    //test_searchByStockNumber();
-    //test_searchByStockNumberNoneFound();
-    //test_removeBook();
-    //test_removeBookNotFound();
-    //test_searchByClassification();
-    //test_searchByClassificationNoneFound();
-    //test_searchByCost();
-    //test_searchByCostNoneFound();
-    //
-    //test_inventoryGetNumberInStock();
-    //
-    //test_printInventory();
-    //test_ClearInventory();
+    test_searchByClassification();
+    test_searchByClassificationNoneFound();
+    test_removeBook();
+    test_removeBookNotFound();
+    test_searchByCost();
+    test_searchByCostNoneFound();
+    test_ClearInventory();
 
     return 0;
 }
