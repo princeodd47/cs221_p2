@@ -48,29 +48,28 @@ bool Book_Inventory::addBook(BookRecord *br)
     if(m_pHead == NULL)
     {
         m_pHead = br;
+        return true;
+    }
+
+    BookRecord *curBr = new BookRecord();
+    BookRecord *prevBr = new BookRecord();
+    curBr = m_pHead;
+    prevBr = NULL;
+    while((curBr != NULL) && (curBr->getStockNum() < br->getStockNum()))
+    {
+        prevBr = curBr;
+        curBr = curBr->getNext();
+    }
+
+    if(prevBr == NULL)
+    {
+        br->setNext(m_pHead);
+        m_pHead = br;
     }
     else
     {
-        BookRecord *curBr = new BookRecord();
-        BookRecord *prevBr = new BookRecord();
-        curBr = m_pHead;
-        prevBr = NULL;
-        while((curBr != NULL) && (curBr->getStockNum() < br->getStockNum()))
-        {
-            prevBr = curBr;
-            curBr = curBr->getNext();
-        }
-
-        if(prevBr == NULL)
-        {
-            br->setNext(m_pHead);
-            m_pHead = br;
-        }
-        else
-        {
-            prevBr->setNext(br);
-            br->setNext(curBr);
-        }
+        prevBr->setNext(br);
+        br->setNext(curBr);
     }
 
     return true;
