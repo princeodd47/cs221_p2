@@ -44,50 +44,92 @@ void Book_Inventory::ClearInventory()
 //--------------------------------------------
 bool Book_Inventory::addBook(BookRecord *br)
 {
-
+    cout << br->getStockNum() << " - WANT TO ADD" << endl;
     if(m_pHead == NULL)
     {
+        cout << "empty list: add to head" << endl;
+        m_pHead = br;
+        m_pHead->printRecord();
+        cout << "Record done" << endl << endl;
+        return true;
+    }
+
+    BookRecord *tempBr = new BookRecord();
+    BookRecord *parentBr = new BookRecord();
+    tempBr = m_pHead;
+    parentBr = NULL;
+    //while((tempBr != NULL) && (tempBr->getStockNum() <= br->getStockNum()))
+    cout << "begin while" << endl;
+    while(tempBr != NULL)
+    {
+        cout << "tempBr != NULL" << endl;
+        cout << "here we are: ";
+        tempBr->printRecord();
+        if(br->getStockNum() < tempBr->getStockNum())
+        {
+            cout << "break, br->stockNum < tembBr->stockNum" << endl;
+            cout << "br->stockNum: " << br->getStockNum() << endl;
+            cout << "tempBr->stockNum: " << tempBr->getStockNum() << endl;
+            break;
+        //if(tempBr->getStockNum() == br->getStockNum())
+        //{
+        //    tempBr->setNumberInStock(tempBr->getNumberInStock()+1);
+        //    return true;
+        //}
+        }
+        cout << "increment" << endl;
+        parentBr = tempBr;
+        tempBr = tempBr->getNext();
+    }
+    cout << "end while" << endl;
+
+
+    if(parentBr == NULL)
+    {
+        br->setNext(tempBr);
         m_pHead = br;
     }
     else
     {
-        BookRecord *tempBr = new BookRecord();
-        BookRecord *parentBr = new BookRecord();
-        tempBr = m_pHead;
-        parentBr = NULL;
-        //while((tempBr != NULL) && (tempBr->getStockNum() <= br->getStockNum()))
-        while(tempBr != NULL)
-        {
-            if(br->getStockNum() < tempBr->getStockNum())
-            {
-                break;
-            //if(tempBr->getStockNum() == br->getStockNum())
-            //{
-            //    tempBr->setNumberInStock(tempBr->getNumberInStock()+1);
-            //    return true;
-            //}
-            }
-            parentBr = tempBr;
-            tempBr = tempBr->getNext();
-        }
-
-
-        if(parentBr == NULL)
-        {
-            br->setNext(tempBr);
-            m_pHead = br;
-        }
-        else
-        {
-            parentBr->setNext(br);
-            br->setNext(tempBr);
-        }
-
-        delete parentBr;
-        parentBr = NULL;
-
-        return true;
+        parentBr->setNext(br);
+        br->setNext(tempBr);
     }
+
+    //the log starts here
+    cout << "THE NOW" << endl;
+
+    if(parentBr != NULL)
+    {
+        cout << "parentBr: " << parentBr->getStockNum() << endl;
+        if(parentBr->getNext() != NULL)
+        {
+            cout << "parentBr->Next: " << parentBr->getNext() << endl;
+        } else {
+            cout << "parentBr->Next is NULL" << endl;
+        }
+    } else {
+        cout << "parentBr is NULL" << endl;
+    }
+
+    cout << "br: " << br->getStockNum() << endl;
+    if(tempBr != NULL)
+    {
+        cout << "tempBr: " << tempBr->getStockNum() << endl;
+        if(tempBr->getNext() != NULL)
+        {
+            cout << "tempBr->Next: " << tempBr->getNext() << endl;
+        } else {
+            cout << "tempBr->Next is NULL" << endl;
+        }
+    } else {
+        cout << "tempBR is NULL" << endl;
+    }
+    //the log ends here
+
+    delete parentBr;
+    parentBr = NULL;
+
+    cout << "Record done" << endl << endl;
     return true;
 }
 
