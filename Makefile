@@ -5,7 +5,7 @@ all: test
 
 .PHONY: compile
 compile:
-	@g++ -o $(OUTPUT) *.cpp *.h
+	@g++ -g -o $(OUTPUT) *.cpp *.h
 
 .PHONY: test
 test: compile

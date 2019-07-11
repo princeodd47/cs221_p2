@@ -9,7 +9,7 @@ using namespace std;
 //--------------------------------------------
 Book_Inventory::Book_Inventory()
 {
-    readInventory("BookData.txt");
+    m_pHead = NULL;
 }
 
 //--------------------------------------------
@@ -44,6 +44,7 @@ void Book_Inventory::ClearInventory()
 //--------------------------------------------
 bool Book_Inventory::addBook(BookRecord *br)
 {
+
     if(m_pHead == NULL)
     {
         m_pHead = br;
@@ -59,6 +60,13 @@ bool Book_Inventory::addBook(BookRecord *br)
             parentBr = tempBr;
             tempBr = tempBr->getNext();
         }
+
+        if(tempBr->getStockNum() == br->getStockNum())
+        {
+            tempBr->setNumberInStock(tempBr->getNumberInStock()+1);
+            return true;
+        }
+
         if(parentBr == NULL)
         {
             br->setNext(tempBr);
@@ -69,6 +77,10 @@ bool Book_Inventory::addBook(BookRecord *br)
             parentBr->setNext(br);
             br->setNext(tempBr);
         }
+
+        delete parentBr;
+        parentBr = NULL;
+
         return true;
     }
     return true;
@@ -80,44 +92,38 @@ bool Book_Inventory::addBook(BookRecord *br)
 //--------------------------------------------
 BookRecord *Book_Inventory::removeBook(long stockNum)
 {
-    cout << "removeBook called" << endl;
     if(m_pHead == NULL)
     {
         return NULL;
     }
 
     BookRecord *tempBr = m_pHead;
-    cout << "BookRecord *tempBr = m_pHead;" << endl;
     BookRecord *parentBr = NULL;
     BookRecord *returnBr = NULL;
     while((tempBr != NULL) && (tempBr->getStockNum() != stockNum))
     {
-        cout << "tempBr != NULL && tempBr->getStockNum() != stockNum" << endl;
         parentBr = tempBr;
         tempBr = tempBr->getNext();
     }
 
     if(tempBr == NULL)
     {
-        cout << "tempBr == NULL" << endl;
         return NULL;
     }
     else if(parentBr == NULL)
     {
-        cout << "parentBr == NULL" << endl;
         m_pHead = m_pHead->getNext();
         returnBr = tempBr;
-        tempBr = NULL;
         delete tempBr;
+        tempBr = NULL;
         return returnBr;
     }
     else
     {
-        cout << "final else" << endl;
         parentBr->setNext(tempBr->getNext());
         returnBr = tempBr;
-        tempBr = NULL;
         delete tempBr;
+        tempBr = NULL;
         return returnBr;
     }
     return NULL;
@@ -131,8 +137,8 @@ BookRecord *Book_Inventory::removeBook(long stockNum)
 //--------------------------------------------
 BookRecord *Book_Inventory::searchByStockNumber(long stockNum)
 {
-    BookRecord *tempBr;
-    tempBr = m_pHead;
+    BookRecord *tempBr = m_pHead;
+    //tempBr = m_pHead;
     while((tempBr != NULL) && (tempBr->getStockNum() != stockNum))
     {
         tempBr = tempBr->getNext();
@@ -144,8 +150,7 @@ BookRecord *Book_Inventory::searchByStockNumber(long stockNum)
     }
     else
     {
-        BookRecord *retBr = new BookRecord();
-        retBr = tempBr;
+        BookRecord *retBr = tempBr;
         retBr->setNext(NULL);
         return retBr;
     }
@@ -182,11 +187,14 @@ void Book_Inventory::searchByClassification(int cl)
 void Book_Inventory::searchByCost(double min, double max)
 {
     int counter = 0;
-    BookRecord *tempBr;
+    double cost = 0.00;
+    BookRecord *tempBr = new BookRecord;
     tempBr = m_pHead;
     while(tempBr != NULL)
     {
-        if((tempBr->getCost() >= min) && tempBr->getCost() <= max)
+        cost = tempBr->getCost();
+        tempBr->printRecord();
+        if((cost >= min) && (cost <= max))
         {
             counter++;
             tempBr->printRecord();
@@ -201,6 +209,8 @@ void Book_Inventory::searchByCost(double min, double max)
              << max
              << endl;
     }
+    delete tempBr;
+    tempBr = NULL;
 }
 
 //--------------------------------------------
@@ -229,13 +239,14 @@ void Book_Inventory::printInventory()
 {
     if(m_pHead != NULL)
     {
-        BookRecord *tempBr = new BookRecord();
-        tempBr = m_pHead;
+        BookRecord *tempBr = m_pHead;
         while(tempBr != NULL)
         {
             tempBr->printRecord();
             tempBr = tempBr->getNext();
         }
+        tempBr = NULL;
+        delete tempBr;
     }
     else
     {
@@ -297,7 +308,18 @@ bool Book_Inventory::readInventory(const char *filename)
         getNextLine(line, 128);
         tempBr->setNumberInStock(atoi(line));
 
-        addBook(tempBr);
+        //Does it already exist?
+        BookRecord *existingBr = new BookRecord;
+        existingBr = searchByStockNumber(tempBr->getStockNum());
+        if(existingBr != NULL)
+        {
+            //increment numInStock
+            existingBr->setNumberInStock(existingBr->getNumberInStock()+1);
+        }
+        else
+        {
+            addBook(tempBr);
+        }
     }
     m_InFile.close();
     return true;
