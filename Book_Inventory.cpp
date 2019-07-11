@@ -55,17 +55,22 @@ bool Book_Inventory::addBook(BookRecord *br)
         BookRecord *parentBr = new BookRecord();
         tempBr = m_pHead;
         parentBr = NULL;
-        while((tempBr != NULL) && (tempBr->getStockNum() < br->getStockNum()))
+        //while((tempBr != NULL) && (tempBr->getStockNum() <= br->getStockNum()))
+        while(tempBr != NULL)
         {
+            if(br->getStockNum() < tempBr->getStockNum())
+            {
+                break;
+            //if(tempBr->getStockNum() == br->getStockNum())
+            //{
+            //    tempBr->setNumberInStock(tempBr->getNumberInStock()+1);
+            //    return true;
+            //}
+            }
             parentBr = tempBr;
             tempBr = tempBr->getNext();
         }
 
-        if(tempBr->getStockNum() == br->getStockNum())
-        {
-            tempBr->setNumberInStock(tempBr->getNumberInStock()+1);
-            return true;
-        }
 
         if(parentBr == NULL)
         {
@@ -308,18 +313,7 @@ bool Book_Inventory::readInventory(const char *filename)
         getNextLine(line, 128);
         tempBr->setNumberInStock(atoi(line));
 
-        //Does it already exist?
-        BookRecord *existingBr = new BookRecord;
-        existingBr = searchByStockNumber(tempBr->getStockNum());
-        if(existingBr != NULL)
-        {
-            //increment numInStock
-            existingBr->setNumberInStock(existingBr->getNumberInStock()+1);
-        }
-        else
-        {
-            addBook(tempBr);
-        }
+        addBook(tempBr);
     }
     m_InFile.close();
     return true;

@@ -345,6 +345,7 @@ void test_inventoryGetNumberInStock()
     testInv->readInventory("BookData.txt");
 
     BookRecord *testBr = testInv->searchByStockNumber(5678);
+    cout << testBr->getStockNum() << endl;
 
     if(testBr->getNumberInStock() == 2)
     {
@@ -486,7 +487,9 @@ int main()
     //test_searchByClassificationNoneFound();
     //test_searchByCost();
     //test_searchByCostNoneFound();
-    test_inventoryGetNumberInStock();
+    //
+    //test_inventoryGetNumberInStock();
+    //
     //test_printInventory();
     //test_ClearInventory();
 
