@@ -187,7 +187,6 @@ void Book_Inventory::searchByCost(double min, double max)
     while(tempBr != NULL)
     {
         cost = tempBr->getCost();
-        tempBr->printRecord();
         if((cost >= min) && (cost <= max))
         {
             counter++;

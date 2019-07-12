@@ -474,7 +474,7 @@ int main()
     test_searchByClassificationNoneFound();
     test_removeBook();
     test_searchByCost();
-    //test_searchByCostNoneFound();
+    test_searchByCostNoneFound();
     //test_ClearInventory();
 
     return 0;
