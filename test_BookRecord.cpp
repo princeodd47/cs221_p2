@@ -318,10 +318,6 @@ void test_removeBook()
 
 void test_removeBookNotFound()
 {
-    cout << endl;
-    cout << "===================" << endl;
-    cout << "test_removeBookNotFound" << endl;
-    cout << "===================" << endl;
     Book_Inventory *testInv = new Book_Inventory();
     testInv->readInventory("BookData.txt");
 
@@ -475,7 +471,7 @@ int main()
     test_removeBook();
     test_searchByCost();
     test_searchByCostNoneFound();
-    //test_ClearInventory();
+    test_ClearInventory();
 
     return 0;
 }

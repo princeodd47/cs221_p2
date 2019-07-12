@@ -34,8 +34,8 @@ void Book_Inventory::ClearInventory()
     {
         m_pHead = m_pHead->getNext();
         tempBr = NULL;
-        //tempBr = m_pHead;
         delete tempBr;
+        tempBr = m_pHead;
     }
 }
 
