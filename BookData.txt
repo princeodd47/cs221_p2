@@ -2,7 +2,7 @@
 # First non-comment line will give the number of books in the file
 # Remaining lines will give the book ID, title, classification, cost
 # and number in stock. Each shall be on a separate line.
-6
+7
 2345
 More Fun With C++
 613
@@ -33,5 +33,10 @@ C++ Code Secrets
 316
 24.95
 12
+5678
+C++ Code Secrets
+316
+24.95
+13
 
    
