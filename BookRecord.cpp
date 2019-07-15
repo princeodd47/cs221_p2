@@ -1,7 +1,10 @@
-//--------------------------------------------------------
-// File BookRecord.cpp
-// Purpose: Implementation of a Book Record keeping system
-//--------------------------------------------------------
+/*******************************************************************
+*   BookRecord.cpp
+*   Steven Powell
+*   Programming Assignment 2 - Book Inventory
+*   
+*   This program is entirely my own work
+*******************************************************************/
 #include "BookRecord.h"
 #include <cstring>
 #include <iostream>

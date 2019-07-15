@@ -1,4 +1,10 @@
-// All list functions will be defined in a class called Book_Inventory and live here.
+/*******************************************************************
+*   Book_Inventory.cpp
+*   Steven Powell
+*   Programming Assignment 2 - Book Inventory
+*   
+*   This program is entirely my own work
+*******************************************************************/
 #include "Book_Inventory.h"
 
 using namespace std;
@@ -51,8 +57,10 @@ bool Book_Inventory::addBook(BookRecord *br)
         return true;
     }
 
-    BookRecord *curBr = m_pHead;
-    BookRecord *prevBr = NULL;
+    BookRecord *curBr = new BookRecord;
+    BookRecord *prevBr = new BookRecord;
+	curBr = m_pHead;
+	prevBr = NULL;
 
     while((curBr != NULL) && (curBr->getStockNum() < br->getStockNum()))
     {
@@ -132,8 +140,9 @@ BookRecord *Book_Inventory::removeBook(long stockNum)
 //--------------------------------------------
 BookRecord *Book_Inventory::searchByStockNumber(long stockNum)
 {
-    BookRecord *tempBr = m_pHead;
-    //tempBr = m_pHead;
+    BookRecord *tempBr = new BookRecord;
+	tempBr = NULL;
+	tempBr = m_pHead;
     while((tempBr != NULL) && (tempBr->getStockNum() != stockNum))
     {
         tempBr = tempBr->getNext();
@@ -254,9 +263,9 @@ void Book_Inventory::printInventory()
 //--------------------------------------------
 bool Book_Inventory::readInventory(const char *filename)
 {
-     char     line[128];
-     int      numBooks;
-     // define other variables here as needed
+    char     line[128];
+    int      numBooks;
+    // define other variables here as needed
 
     m_InFile.open(filename, ifstream::in);
     if(!m_InFile.is_open())
@@ -269,15 +278,13 @@ bool Book_Inventory::readInventory(const char *filename)
     // Read number of books
     getNextLine(line, 128);
     numBooks = atoi(line);
-
     /*
      * Remaining lines will give the stock number, Title, classification, 
      * cost and number in stock
      */
     for(int i=0; i<numBooks; i++)
     {
-        BookRecord *tempBr = new BookRecord();
-
+		BookRecord *tempBr = new BookRecord();
         // stockNum
         getNextLine(line, 128);
         tempBr->setStockNum(atol(line));
@@ -299,9 +306,12 @@ bool Book_Inventory::readInventory(const char *filename)
         // numInStock
         getNextLine(line, 128);
         tempBr->setNumberInStock(atoi(line));
-
         addBook(tempBr);
+		//delete tempBr;
+		//tempBr = NULL;
     }
+	//delete tempBr;
+	//tempBr = NULL;
     m_InFile.close();
     return true;
 }

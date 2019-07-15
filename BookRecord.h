@@ -1,7 +1,10 @@
-//--------------------------------------------------------
-// File BookRecord.h
-// Purpose: Define inventory records
-//--------------------------------------------------------
+/*******************************************************************
+*   BookRecord.h
+*   Steven Powell
+*   Programming Assignment 2 - Book Inventory
+*   
+*   This program is entirely my own work
+*******************************************************************/
 #ifndef RECORD_H
 #define RECORD_H
 #endif

@@ -1,11 +1,11 @@
 
-//-----------------------------------------------------------------------------
-// File: Book_Inventory.h
-// Header file for a book inventory program implemented as a sorted linked list
-//
-// Note: All functions which print data on a book must print an appropriate
-//       message if it fails to find any book(s) meeting the search criteria
-//-----------------------------------------------------------------------------
+/*******************************************************************
+*   Book_Inventory.h
+*   Steven Powell
+*   Programming Assignment 2 - Book Inventory
+*   
+*   This program is entirely my own work
+*******************************************************************/
 //#pragma once
 
 #include<iostream>  // This header lets you use cout and cin
