@@ -154,10 +154,25 @@ BookRecord *Book_Inventory::searchByStockNumber(long stockNum)
     }
     else
     {
-        BookRecord *retBr = tempBr;
-        retBr->setNext(NULL);
+        BookRecord *retBr = new BookRecord;
+		copyRecord(tempBr, retBr);
+        //retBr->setNext(NULL);
         return retBr;
     }
+}
+
+//--------------------------------------------
+// Function: copyRecord(source, target)
+//--------------------------------------------
+void Book_Inventory::copyRecord(BookRecord *sourceBr, BookRecord *targetBr)
+{
+	char tempTitle[128] = "";
+	sourceBr->getTitle(tempTitle);
+	targetBr->setTitle(tempTitle);
+	targetBr->setStockNum(sourceBr->getStockNum());
+	targetBr->setCost(sourceBr->getCost());
+	targetBr->setClassification(sourceBr->getClassification());
+	targetBr->setNumberInStock(sourceBr->getNumberInStock());
 }
 
 //--------------------------------------------
@@ -240,14 +255,15 @@ void Book_Inventory::printInventory()
 {
     if(m_pHead != NULL)
     {
-        BookRecord *tempBr = m_pHead;
+        BookRecord *tempBr = new BookRecord;
+		tempBr = m_pHead;
         while(tempBr != NULL)
         {
             tempBr->printRecord();
             tempBr = tempBr->getNext();
         }
+		delete tempBr;
         tempBr = NULL;
-        delete tempBr;
     }
     else
     {

@@ -45,6 +45,7 @@ class Book_Inventory
         int getNumberInStock(long sn);
         // Print all information on all books in the inventory.
         void printInventory();
+		void copyRecord(BookRecord *sourceBr, BookRecord *targetBr);
     private:
         // read next line from a file
         bool getNextLine(char *line, int lineLen);
